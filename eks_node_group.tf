@@ -1,5 +1,16 @@
+data "aws_ami" "myec2" {
+  most_recent = true
+  owners = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
+}
+
+
+
 resource "aws_instance" "kubectl-server" {
-  ami                         = "ami-063e1495af50e6fd5"
+  ami                         = data.aws_ami.myec2.id
   key_name                    = "key1"
   instance_type               = "t2.micro"
   associate_public_ip_address = true
